@@ -1,0 +1,38 @@
+# -----------------------------------------------------------------------
+# Copyright (c) 2019 SAP SE or an SAP affiliate company. All rights reserved.
+# -----------------------------------------------------------------------
+# ImpEx for Importing Category Classifications into Liquorshop Store
+
+# Macros / Replacement Parameter definitions
+$productCatalog = liquorshopProductCatalog
+$productCatalogName = Liquorshop Product Catalog
+$catalogVersion = catalogversion(catalog(id[default = $productCatalog]), version[default = 'Staged'])[unique = true, default = $productCatalog:Staged]
+$classCatalogVersion = catalogversion(catalog(id[default = 'LiquorshopClassification']), version[default = '1.0'])[unique = true, default = 'LiquorshopClassification:1.0']
+$classSystemVersion = systemVersion(catalog(id[default = 'LiquorshopClassification']), version[default = '1.0'])[unique = true]
+$class = classificationClass(ClassificationClass.code, $classCatalogVersion)[unique = true]
+$supercategories = source(code, $classCatalogVersion)[unique = true]
+$categories = target(code, $catalogVersion)[unique = true]
+$attribute = classificationAttribute(code, $classSystemVersion)[unique = true]
+$unit = unit(code, $classSystemVersion)
+
+# Insert Classifications
+INSERT_UPDATE ClassificationClass; $classCatalogVersion; code[unique = true]; allowedPrincipals(uid)[default = 'customergroup']
+                                 ;                     ; drinksAssortment   ;
+                                 ;                     ; snacksAssortment   ;
+
+# Insert Classification Attributes
+INSERT_UPDATE ClassificationAttribute; $classSystemVersion; code[unique = true]
+                                     ;                    ; materialSnacks
+                                     ;                    ; quantity_g
+                                     ;                    ; quantity_ml
+                                     ;                    ; materialDrinks
+# Links ClassificationClasses to Categories
+INSERT_UPDATE CategoryCategoryRelation; $categories; $supercategories
+                                      ; drinks     ; drinksAssortment
+                                      ; snacks     ; snacksAssortment
+
+INSERT_UPDATE ClassAttributeAssignment; $class           ; $attribute     ; position; $unit; attributeType(code[default = string]); multiValued[default = false]; range[default = false]; localized[default = true]
+                                      ; drinksAssortment ; quantity_ml    ; 1       ; 142  ; number                               ;                             ;                       ;
+                                      ; drinksAssortment ; materialDrinks ; 1       ; 300  ; string                               ;                             ;                       ;
+                                      ; snacksAssortment ; quantity_g     ; 1       ; 38   ; number                               ;                             ;                       ;
+                                      ; snacksAssortment ; materialSnacks ; 1       ; 300  ; string                               ;                             ;                       ;

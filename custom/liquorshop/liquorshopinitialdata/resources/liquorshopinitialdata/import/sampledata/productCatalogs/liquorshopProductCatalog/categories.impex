@@ -1,0 +1,57 @@
+# -----------------------------------------------------------------------
+# Copyright (c) 2019 SAP SE or an SAP affiliate company. All rights reserved.
+# -----------------------------------------------------------------------
+# ImpEx for Importing Categories into Liquorshop Store
+
+# Macros / Replacement Parameter definitions
+$productCatalog = liquorshopProductCatalog
+$productCatalogName = Liquorshop Product Catalog
+$catalogVersion = catalogversion(catalog(id[default = $productCatalog]), version[default = 'Staged'])[unique = true, default = $productCatalog:Staged]
+$supercategories = source(code, $catalogVersion)[unique = true]
+$categories = target(code, $catalogVersion)[unique = true]
+
+# Insert Categories
+INSERT_UPDATE Category; code[unique = true]; allowedPrincipals(uid)[default = 'customergroup']; $catalogVersion
+                      ; 1                  ;                                                  ;
+                      ; drinks             ;                                                  ;
+                      ; importedWhisky     ;                                                  ;
+                      ; indianWhisky       ;                                                  ;
+                      ; rumBrandy          ;                                                  ;
+                      ; wine               ;                                                  ;
+                      ; beer               ;                                                  ;
+                      ; vodka              ;                                                  ;
+                      ; gin                ;                                                  ;
+                      ; snacks             ;                                                  ;
+                      ; scotch             ;                                                  ;
+                      ; singleMaltImported ;                                                  ;
+                      ; whiskyImported     ;                                                  ;
+                      ; singleMaltIndian   ;                                                  ;
+                      ; whisky             ;                                                  ;
+                      ; redWine            ;                                                  ;
+                      ; whiteWine          ;                                                  ;
+                      ; roseWine           ;                                                  ;
+
+# Insert Category Structure
+INSERT_UPDATE CategoryCategoryRelation; $categories        ; $supercategories
+                                      ; snacks             ; 1
+                                      ; drinks             ; 1
+
+                                      ; importedWhisky     ; drinks
+                                      ; indianWhisky       ; drinks
+                                      ; rumBrandy          ; drinks
+                                      ; wine               ; drinks
+                                      ; beer               ; drinks
+                                      ; vodka              ; drinks
+                                      ; gin                ; drinks
+
+
+                                      ; scotch             ; importedWhisky
+                                      ; singleMaltImported ; importedWhisky
+                                      ; whiskyImported     ; importedWhisky
+
+                                      ; singleMaltIndian   ; indianWhisky
+                                      ; whisky             ; indianWhisky
+
+                                      ; redWine            ; wine
+                                      ; whiteWine          ; wine
+                                      ; roseWine           ; wine

@@ -1,0 +1,103 @@
+# -----------------------------------------------------------------------
+# Copyright (c) 2019 SAP SE or an SAP affiliate company. All rights reserved.
+# -----------------------------------------------------------------------
+# ImpEx for Importing Products stock levels into Liquorshop Store
+
+# Macros / Replacement Parameter definitions
+$productCatalog = liquorshopProductCatalog
+$productCatalogName = Liquorshop Product Catalog
+$catalogVersion = catalogversion(catalog(id[default = $productCatalog]), version[default = 'Staged'])[unique = true, default = $productCatalog:Staged]
+
+INSERT_UPDATE Warehouse; code[unique = true]; name[lang = en] ; name[lang = de]
+                       ; warehouse_s        ; Warehouse South ; Warehouse South
+                       ; warehouse_e        ; Warehouse East  ; Warehouse East
+                       ; warehouse_w        ; Warehouse West  ; Warehouse West
+                       ; warehouse_n        ; Warehouse North ; Warehouse North
+
+INSERT_UPDATE StockLevel; available; warehouse(code)[unique = true]; inStockStatus(code); maxPreOrder; maxStockLevelHistoryCount; overSelling; preOrder; productCode[unique = true]; reserved
+                        ; 87       ; warehouse_s                   ; notSpecified       ; 1          ; 0                        ; 0          ; 0       ; 200001                    ; 0
+                        ; 87       ; warehouse_s                   ; notSpecified       ; 1          ; 0                        ; 0          ; 0       ; 200001_500                ; 0
+                        ; 87       ; warehouse_s                   ; notSpecified       ; 1          ; 0                        ; 0          ; 0       ; 200001_750                ; 0
+                        ; 87       ; warehouse_s                   ; notSpecified       ; 1          ; 0                        ; 0          ; 0       ; 200001_1000               ; 0
+                        ; 7        ; warehouse_e                   ; notSpecified       ; 1          ; 0                        ; 0          ; 0       ; 200002                    ; 0
+                        ; 2        ; warehouse_w                   ; notSpecified       ; 1          ; 0                        ; 0          ; 0       ; 200003                    ; 0
+                        ; 4        ; warehouse_n                   ; notSpecified       ; 1          ; 0                        ; 0          ; 0       ; 200004                    ; 0
+                        ; 7        ; warehouse_s                   ; forceOutOfStock    ; 1          ; 0                        ; 0          ; 0       ; 200005                    ; 0
+                        ; 11       ; warehouse_e                   ; notSpecified       ; 1          ; 0                        ; 0          ; 0       ; 200006                    ; 0
+                        ; 15       ; warehouse_w                   ; notSpecified       ; 1          ; 0                        ; 0          ; 0       ; 200007                    ; 0
+                        ; 22       ; warehouse_n                   ; notSpecified       ; 1          ; 0                        ; 0          ; 0       ; 200008                    ; 0
+                        ; 29       ; warehouse_s                   ; notSpecified       ; 1          ; 0                        ; 0          ; 0       ; 200009                    ; 0
+                        ; 31       ; warehouse_e                   ; notSpecified       ; 1          ; 0                        ; 0          ; 0       ; 200010                    ; 0
+                        ; 36       ; warehouse_w                   ; notSpecified       ; 1          ; 0                        ; 0          ; 0       ; 200011                    ; 0
+                        ; 45       ; warehouse_n                   ; notSpecified       ; 1          ; 0                        ; 0          ; 0       ; 200012                    ; 0
+                        ; 60       ; warehouse_s                   ; notSpecified       ; 1          ; 0                        ; 0          ; 0       ; 200013                    ; 0
+                        ; 87       ; warehouse_e                   ; notSpecified       ; 1          ; 0                        ; 0          ; 0       ; 200014                    ; 0
+                        ; 99       ; warehouse_w                   ; notSpecified       ; 1          ; 0                        ; 0          ; 0       ; 200015                    ; 0
+                        ; 121      ; warehouse_n                   ; notSpecified       ; 1          ; 0                        ; 0          ; 0       ; 200016                    ; 0
+                        ; 157      ; warehouse_s                   ; notSpecified       ; 1          ; 0                        ; 0          ; 0       ; 200017                    ; 0
+                        ; 0        ; warehouse_s                   ; forceInStock       ; 1          ; 0                        ; 0          ; 0       ; 200018                    ; 0
+                        ; 0        ; warehouse_e                   ; notSpecified       ; 1          ; 0                        ; 0          ; 0       ; 200019                    ; 0
+                        ; 2        ; warehouse_w                   ; notSpecified       ; 1          ; 0                        ; 0          ; 0       ; 200020                    ; 0
+                        ; 4        ; warehouse_n                   ; notSpecified       ; 1          ; 0                        ; 0          ; 0       ; 200021                    ; 0
+                        ; 7        ; warehouse_s                   ; notSpecified       ; 1          ; 0                        ; 0          ; 0       ; 200022                    ; 0
+                        ; 11       ; warehouse_e                   ; notSpecified       ; 1          ; 0                        ; 0          ; 0       ; 200023                    ; 0
+                        ; 15       ; warehouse_w                   ; forceOutOfStock    ; 1          ; 0                        ; 0          ; 0       ; 200024                    ; 0
+                        ; 22       ; warehouse_n                   ; notSpecified       ; 1          ; 0                        ; 0          ; 0       ; 200025                    ; 0
+                        ; 45       ; warehouse_n                   ; forceOutOfStock    ; 1          ; 0                        ; 0          ; 0       ; 200026                    ; 0
+                        ; 60       ; warehouse_s                   ; notSpecified       ; 1          ; 0                        ; 0          ; 0       ; 200027                    ; 0
+                        ; 87       ; warehouse_e                   ; notSpecified       ; 1          ; 0                        ; 0          ; 0       ; 200028                    ; 0
+                        ; 99       ; warehouse_w                   ; notSpecified       ; 1          ; 0                        ; 0          ; 0       ; 200029                    ; 0
+                        ; 121      ; warehouse_n                   ; notSpecified       ; 1          ; 0                        ; 0          ; 0       ; 200030                    ; 0
+                        ; 157      ; warehouse_s                   ; notSpecified       ; 1          ; 0                        ; 0          ; 0       ; 200031                    ; 0
+                        ; 0        ; warehouse_s                   ; forceInStock       ; 1          ; 0                        ; 0          ; 0       ; 200032                    ; 0
+                        ; 0        ; warehouse_e                   ; notSpecified       ; 1          ; 0                        ; 0          ; 0       ; 200033                    ; 0
+                        ; 2        ; warehouse_w                   ; notSpecified       ; 1          ; 0                        ; 0          ; 0       ; 200034                    ; 0
+                        ; 4        ; warehouse_n                   ; notSpecified       ; 1          ; 0                        ; 0          ; 0       ; 200035                    ; 0
+                        ; 7        ; warehouse_s                   ; notSpecified       ; 1          ; 0                        ; 0          ; 0       ; 200036                    ; 0
+                        ; 11       ; warehouse_e                   ; notSpecified       ; 1          ; 0                        ; 0          ; 0       ; 200037                    ; 0
+                        ; 15       ; warehouse_w                   ; notSpecified       ; 1          ; 0                        ; 0          ; 0       ; 200038                    ; 0
+                        ; 22       ; warehouse_n                   ; notSpecified       ; 1          ; 0                        ; 0          ; 0       ; 200039                    ; 0
+
+UPDATE Product; code[unique = true]; $catalogVersion; stockLevels(productCode, warehouse(code)); vendors(code)
+              ; 200001             ;                ; 200001:warehouse_s                       ;
+              ; 200001_500         ;                ; 200001_500:warehouse_s                   ;
+              ; 200001_750         ;                ; 200001_750:warehouse_s                   ;
+              ; 200001_1000        ;                ; 200001_1000:warehouse_s                  ;
+              ; 200002             ;                ; 200002:warehouse_e                       ;
+              ; 200003             ;                ; 200003:warehouse_w                       ;
+              ; 200004             ;                ; 200004:warehouse_n                       ;
+              ; 200005             ;                ; 200005:warehouse_s                       ;
+              ; 200006             ;                ; 200006:warehouse_e                       ;
+              ; 200007             ;                ; 200007:warehouse_w                       ;
+              ; 200008             ;                ; 200008:warehouse_n                       ;
+              ; 200009             ;                ; 200009:warehouse_s                       ;
+              ; 200010             ;                ; 200010:warehouse_e                       ;
+              ; 200011             ;                ; 200011:warehouse_w                       ;
+              ; 200012             ;                ; 200012:warehouse_n                       ;
+              ; 200013             ;                ; 200013:warehouse_s                       ;
+              ; 200014             ;                ; 200014:warehouse_e                       ;
+              ; 200015             ;                ; 200015:warehouse_w                       ;
+              ; 200016             ;                ; 200016:warehouse_n                       ;
+              ; 200017             ;                ; 200017:warehouse_s                       ;
+              ; 200018             ;                ; 200018:warehouse_s                       ;
+              ; 200019             ;                ; 200019:warehouse_e                       ;
+              ; 200020             ;                ; 200020:warehouse_w                       ;
+              ; 200021             ;                ; 200021:warehouse_n                       ;
+              ; 200022             ;                ; 200022:warehouse_s                       ;
+              ; 200023             ;                ; 200023:warehouse_e                       ;
+              ; 200024             ;                ; 200024:warehouse_w                       ;
+              ; 200025             ;                ; 200025:warehouse_n                       ;
+              ; 200026             ;                ; 200026:warehouse_n                       ;
+              ; 200027             ;                ; 200027:warehouse_s                       ;
+              ; 200028             ;                ; 200028:warehouse_e                       ;
+              ; 200029             ;                ; 200029:warehouse_w                       ;
+              ; 200030             ;                ; 200030:warehouse_n                       ;
+              ; 200031             ;                ; 200031:warehouse_s                       ;
+              ; 200032             ;                ; 200032:warehouse_s                       ;
+              ; 200033             ;                ; 200033:warehouse_e                       ;
+              ; 200034             ;                ; 200034:warehouse_w                       ;
+              ; 200035             ;                ; 200035:warehouse_n                       ;
+              ; 200036             ;                ; 200036:warehouse_s                       ;
+              ; 200037             ;                ; 200037:warehouse_e                       ;
+              ; 200038             ;                ; 200038:warehouse_w                       ;
+              ; 200039             ;                ; 200039:warehouse_n                       ;

@@ -1,0 +1,64 @@
+# -----------------------------------------------------------------------
+# Copyright (c) 2019 SAP SE or an SAP affiliate company. All rights reserved.
+# -----------------------------------------------------------------------
+# ImpEx for Importing Product Classifications into Liquorshop Store
+
+#% impex.setLocale(Locale.ENGLISH);
+
+# Macros / Replacement Parameter definitions
+$productCatalog = liquorshopProductCatalog
+$productCatalogName = Liquorshop Product Catalog
+$catalogVersion = catalogversion(catalog(id[default = $productCatalog]), version[default = 'Staged'])[unique = true, default = $productCatalog:Staged]
+$clAttrModifiers = system = 'LiquorshopClassification', version = '1.0', translator = de.hybris.platform.catalog.jalo.classification.impex.ClassificationAttributeTranslator, lang = en
+
+# Insert Product Classifications
+
+# Classification: Drinks
+$feature1 = @materialDrinks[$clAttrModifiers]
+$feature2 = @quantity_ml[$clAttrModifiers]
+INSERT_UPDATE Product; code[unique = true]; $feature1     ; $feature2; $catalogVersion
+                     ; 200001             ; Alcoholic     ; 1000     ;
+                     ; 200002             ; Alcoholic     ; 750      ;
+                     ; 200003             ; Alcoholic     ; 700      ;
+                     ; 200004             ; Alcoholic     ; 750      ;
+                     ; 200005             ; Alcoholic     ; 750      ;
+                     ; 200006             ; Alcoholic     ; 750      ;
+                     ; 200007             ; Alcoholic     ; 750      ;
+                     ; 200008             ; Alcoholic     ; 750      ;
+                     ; 200009             ; Alcoholic     ; 750      ;
+                     ; 200010             ; Alcoholic     ; 750      ;
+                     ; 200011             ; Alcoholic     ; 750      ;
+                     ; 200012             ; Alcoholic     ; 750      ;
+                     ; 200013             ; Alcoholic     ; 750      ;
+                     ; 200014             ; Alcoholic     ; 750      ;
+                     ; 200015             ; Non-Alcoholic ; 750      ;
+                     ; 200016             ; Non-Alcoholic ; 750      ;
+                     ; 200017             ; Non-Alcoholic ; 750      ;
+                     ; 200018             ; Alcoholic     ; 350      ;
+                     ; 200019             ; Alcoholic     ; 375      ;
+                     ; 200020             ; Alcoholic     ; 375      ;
+                     ; 200021             ; Alcoholic     ; 375      ;
+                     ; 200022             ; Alcoholic     ; 750      ;
+                     ; 200023             ; Alcoholic     ; 750      ;
+                     ; 200026             ; Alcoholic     ; 700      ;
+                     ; 200027             ; Alcoholic     ; 750      ;
+                     ; 200028             ; Alcoholic     ; 375      ;
+                     ; 200029             ; Alcoholic     ; 750      ;
+                     ; 200030             ; Alcoholic     ; 750      ;
+                     ; 200031             ; Alcoholic     ; 750      ;
+                     ; 200032             ; Alcoholic     ; 750      ;
+                     ; 200033             ; Alcoholic     ; 275      ;
+                     ; 200034             ; Alcoholic     ; 275      ;
+                     ; 200035             ; Alcoholic     ; 275      ;
+                     ; 200036             ; Alcoholic     ; 180      ;
+                     ; 200037             ; Alcoholic     ; 180      ;
+                     ; 200038             ; Alcoholic     ; 750      ;
+
+
+# Classification: Snacks
+$feature1 = @materialSnacks[$clAttrModifiers]
+$feature2 = @quantity_g[$clAttrModifiers]
+INSERT_UPDATE Product; code[unique = true]; $feature1; $feature2; $catalogVersion
+                     ; 200024             ; Snacks   ; 100      ;
+                     ; 200025             ; Snacks   ; 100      ;
+                     ; 200039             ; Snacks   ; 100      ;

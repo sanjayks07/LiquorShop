@@ -1,0 +1,96 @@
+# -----------------------------------------------------------------------
+# Copyright (c) 2019 SAP SE or an SAP affiliate company. All rights reserved.
+# -----------------------------------------------------------------------
+#
+# Add additional sample solr index configuration
+# - indexed properties for the classification features that we want to index
+#
+$classSystemVersion = systemVersion(catalog(id[default = 'LiquorshopClassification']), version[default = '1.0'])
+$classCatalogVersion = catalogVersion(catalog(id[default = 'LiquorshopClassification']), version[default = '1.0'])
+$classAttribute = classificationAttribute(code, $classSystemVersion)
+$classClass = classificationClass(code, $classCatalogVersion)
+$classAttributeAssignment = classAttributeAssignment($classClass, $classAttribute, $classSystemVersion)
+$contentCatalogName = liquorshopContentCatalog
+$solrIndexedType = liquorshopProductType
+$contentCatalogVersion = catalogVersion(CatalogVersion.catalog(Catalog.id[default = $contentCatalogName]), CatalogVersion.version[default = Staged])[default = $contentCatalogName:Staged]
+$productCatalog = liquorshopProductCatalog
+$productCatalogVersion = catalogversion(catalog(id[default = $productCatalog]), version[default = 'Staged'])[unique = true, default = $productCatalog:Staged]
+$searchIndexNamePrefix=liquorshop
+# Define price range set
+INSERT_UPDATE SolrValueRangeSet; name[unique = true]; qualifier; type; solrValueRanges(&rangeValueRefID)
+
+# Define Megapixel ranges
+INSERT_UPDATE SolrValueRange; &rangeValueRefID; solrValueRangeSet(name)[unique = true]; name[unique = true]; from; to
+
+
+INSERT_UPDATE SolrIndexedProperty; solrIndexedType(identifier)[unique = true]; name[unique = true]; type(code); sortableType(code); currency[default = false]; localized[default = false]; multiValue[default = false]; facet[default = false]; facetType(code); facetSort(code); priority; visible; fieldValueProvider                          ; customFacetSortProvider; rangeSets(name); $classAttributeAssignment
+                                 ; $solrIndexedType                          ; quantity_g         ; double    ;                   ;                          ;                           ;                            ; true                  ; Refine         ; Alpha          ; 1000    ; true   ; commerceClassificationPropertyValueProvider ;                        ;                ; drinksAssortment:::quantity_g::::
+                                 ; $solrIndexedType                          ; quantity_ml        ; double    ;                   ;                          ;                           ;                            ; true                  ; Refine         ; Alpha          ; 1000    ; true   ; commerceClassificationPropertyValueProvider ;                        ;                ; snacksAssortment:::quantity_ml::::
+                                 ; $solrIndexedType                          ; materialDrinks     ; string    ;                   ;                          ;                           ;                            ; true                  ; MultiSelectOr  ; Alpha          ; 1000    ; true   ; classificationPropertySplitValueProvider    ;                        ;                ; drinksAssortment:::materialDrinks::::
+                                 ; $solrIndexedType                          ; materialSnacks     ; string    ;                   ;                          ;                           ;                            ; true                  ; MultiSelectOr  ; Alpha          ; 1000    ; true   ; classificationPropertySplitValueProvider    ;                        ;                ; snacksAssortment:::materialSnacks::::
+
+# Import classification features
+INSERT_UPDATE SolrIndexedProperty; solrIndexedType(identifier)[unique = true]; name[unique = true]; type(code); localized[default = true]; multiValue[default = false]; fieldValueProvider; $classAttributeAssignment
+
+# Show the classification features in the product lister
+INSERT_UPDATE ClassAttributeAssignment; $classClass[unique = true]; $classAttribute[unique = true]; $classSystemVersion[unique = true]; listable
+                                      ; drinksAssortment          ; quantity_g                    ;                                   ; true
+                                      ; drinksAssortment          ; materialDrinks                ;                                   ; true
+                                      ; snacksAssortment          ; quantity_ml                   ;                                   ; true
+                                      ; snacksAssortment          ; materialSnacks                ;                                   ; true
+
+# Redirect page URL
+INSERT_UPDATE SolrURIRedirect; url[unique = true]
+                             ; "/cart"
+                             ; "http://www.hybris.com/multichannel-accelerator"
+
+INSERT_UPDATE SolrPageRedirect; redirectItem(uid, $contentCatalogVersion)[unique = true]
+                              ; faq
+
+INSERT_UPDATE SolrCategoryRedirect; redirectItem(code, $productCatalogVersion)[unique = true]
+                                  ; brand_5
+                                  ; brand_10
+                                  ; 902
+
+INSERT_UPDATE SolrProductRedirect; redirectItem(code, $productCatalogVersion)[unique = true]
+                                 ; 1382080
+                                 ; 2053266
+                                 ; 816780
+
+# Classification features
+INSERT_UPDATE SolrSearchQueryProperty; indexedProperty(name, solrIndexedType(identifier))[unique = true]; searchQueryTemplate(name, indexedType(identifier))[unique = true][default = DEFAULT:$solrIndexedType]; facet; ftsPhraseQuery[default = false]; ftsPhraseQueryBoost; ftsQuery[default = false]; ftsQueryBoost; ftsFuzzyQuery[default = false]; ftsFuzzyQueryBoost; ftsWildcardQuery[default = false]; ftsWildcardQueryType(code)[default = POSTFIX]; ftsWildcardQueryBoost; ftsWildcardQueryMinTermLength; includeInResponse[default = true]
+#;quantity_g:$solrIndexedType		;	 ;	  ;    ;   ;    ;  ;    ;   ;  ;       ;  ; ;
+#;quantity_ml:$solrIndexedType	;	 ;	  ;    ;   ;    ;  ;    ;   ;  ;       ;  ; ;
+#;materialDrinks:$solrIndexedType	;	 ;	  ;    ;   ;    ;  ;    ;   ;  ;       ;  ; ;
+#;materialSnacks:$solrIndexedType	;	 ;	  ;    ;   ;    ;  ;    ;   ;  ;       ;  ; ;
+
+# Classification facets
+INSERT_UPDATE SolrSearchQueryProperty; indexedProperty(name, solrIndexedType(identifier))[unique = true]; facet[default = true]; facetType(code); priority; facetDisplayNameProvider; facetSortProvider            ; facetTopValuesProvider; includeInResponse[default = true]; searchQueryTemplate(name, indexedType(identifier))[unique = true][default = DEFAULT:$solrIndexedType]
+                                     ; quantity_g:$solrIndexedType                                      ;                      ; MultiSelectOr  ; 1000    ;                         ; numericFacetSortProviderDesc ;                       ;                                  ;
+                                     ; quantity_ml:$solrIndexedType                                     ;                      ; Refine         ; 1000    ;                         ; numericFacetSortProviderDesc ;                       ;                                  ;
+                                     ; materialDrinks:$solrIndexedType                                  ;                      ; MultiSelectOr  ; 1000    ;                         ;                              ;                       ;                                  ;
+                                     ; materialSnacks:$solrIndexedType                                  ;                      ; MultiSelectOr  ; 1000    ;                         ;                              ;                       ;                                  ;
+
+INSERT_UPDATE SolrIndexerQuery;solrIndexedType(identifier)[unique=true];identifier[unique=true];type(code);injectCurrentDate[default=true];injectCurrentTime[default=true];injectLastIndexTime[default=true];query;user(uid)
+                              ;$solrIndexedType;$searchIndexNamePrefix-fullQuery;full;;;false;"
+SELECT {PK} FROM {Product} WHERE ({varianttype} IS NULL OR {varianttype} NOT IN ( {{ SELECT {PK} FROM {varianttype} WHERE {code} = 'LiquorShopQuantityVariantProduct'}}) )
+							AND {code} NOT IN( {{ SELECT {code} FROM {GenericVariantProduct} }})";anonymous
+
+                              ;$solrIndexedType;$searchIndexNamePrefix-updateQuery;update;;;;"
+SELECT DISTINCT tbl.pk, tbl.code FROM (
+	{{
+		SELECT DISTINCT {p:PK} AS pk, {p:code} AS code, {p:varianttype} AS varianttype
+		FROM {Product AS p LEFT JOIN CustomerReview AS cr ON {cr:product}={p:PK} }
+		WHERE {p:modifiedtime} >= ?lastIndexTime OR {cr:modifiedtime} >= ?lastIndexTime
+	}}
+	UNION
+	{{
+		SELECT {p:PK}  AS pk, {p:code} AS code, {p:varianttype} AS varianttype FROM {Product AS p} WHERE {p:code} IN (
+			{{
+				SELECT DISTINCT {sl:productCode} FROM {StockLevel AS sl} WHERE {sl:modifiedtime} >= ?lastIndexTime
+			}}
+		)
+	}}
+) tbl WHERE (tbl.varianttype IS NULL OR tbl.varianttype NOT IN ( {{ SELECT {PK} FROM {varianttype} WHERE {code} = 'LiquorShopQuantityVariantProduct'}}) )
+      AND tbl.code NOT IN({{ SELECT {code} FROM {GenericVariantProduct} }}) ORDER BY tbl.code
+";anonymous

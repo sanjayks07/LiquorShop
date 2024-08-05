@@ -1,0 +1,37 @@
+# -----------------------------------------------------------------------
+# Copyright (c) 2019 SAP SE or an SAP affiliate company. All rights reserved.
+# -----------------------------------------------------------------------
+# ImpEx for Importing Suppliers into Liquorshop Store
+
+# Macros / Replacement Parameter definitions
+$productCatalog = liquorshopProductCatalog
+$productCatalogName = Liquorshop Product Catalog
+$catalogVersion = catalogversion(catalog(id[default = $productCatalog]), version[default = 'Staged'])[unique = true, default = $productCatalog:Staged]
+$superCategories = superCategories(code, $catalogVersion)
+
+# Create Supplier Categories
+INSERT_UPDATE Category; code[unique = true]; $superCategories; allowedPrincipals(uid)[default = 'customergroup']; $catalogVersion
+                      ; brands             ;                 ;                                                  ;
+                      ; teachers           ; brands          ;                                                  ;
+                      ; johnieWalker       ; brands          ;                                                  ;
+                      ; chivas             ; brands          ;                                                  ;
+                      ; singleton          ; brands          ;                                                  ;
+                      ; jackDaniels        ; brands          ;                                                  ;
+                      ; jura               ; brands          ;                                                  ;
+                      ; amrut              ; brands          ;                                                  ;
+                      ; rampur             ; brands          ;                                                  ;
+                      ; blendersPride      ; brands          ;                                                  ;
+                      ; royalChallenge     ; brands          ;                                                  ;
+                      ; oldMonk            ; brands          ;                                                  ;
+                      ; bacardi            ; brands          ;                                                  ;
+                      ; maisonChanson      ; brands          ;                                                  ;
+                      ; fratelli           ; brands          ;                                                  ;
+                      ; antares            ; brands          ;                                                  ;
+                      ; blackTower         ; brands          ;                                                  ;
+                      ; kingfisher         ; brands          ;                                                  ;
+                      ; brocode            ; brands          ;                                                  ;
+                      ; magicMoments       ; brands          ;                                                  ;
+                      ; whiteMischief      ; brands          ;                                                  ;
+                      ; bulldog            ; brands          ;                                                  ;
+                      ; jaisalmerGin       ; brands          ;                                                  ;
+                      ; spencers           ; brands          ;                                                  ;

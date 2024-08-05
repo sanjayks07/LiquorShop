@@ -1,0 +1,105 @@
+# -----------------------------------------------------------------------
+# Copyright (c) 2022 SAP SE or an SAP affiliate company. All rights reserved.
+# -----------------------------------------------------------------------
+# ImpEx for Importing Products into Liquorshop Store
+
+# Macros / Replacement Parameter definitions
+$productCatalog = liquorshopProductCatalog
+$productCatalogName = Liquorshop Product Catalog
+$catalogVersion = catalogversion(catalog(id[default = $productCatalog]), version[default = 'Staged'])[unique = true, default = $productCatalog:Staged]
+$supercategories = supercategories(code, $catalogVersion)
+$baseProduct = baseProduct(code, $catalogVersion)
+$approved = approvalstatus(code)[default = 'check']
+
+# Insert Products
+INSERT_UPDATE Product; code[unique = true]; $supercategories              ; manufacturerName; manufacturerAID; unit(code); ean; variantType(code)                ; $catalogVersion; $approved
+                     ; 200001             ; scotch, teachers              ; Teachers        ; SCT-001        ; pieces    ;    ; LiquorShopQuantityVariantProduct ;                ;
+                     ; 200002             ; scotch, johnieWalker          ; Johnie Walker   ; SCT-002        ; pieces    ;    ;                                  ;                ;
+                     ; 200026             ; scotch, johnieWalker          ; Johnie Walker   ; SCT-003        ; pieces    ;    ;                                  ;                ;
+                     ; 200027             ; scotch, chivas                ; Chivas          ; SCT-004        ; pieces    ;    ;                                  ;                ;
+
+                     ; 200003             ; singleMaltImported, chivas    ; Chivas          ; SIN-001        ; pieces    ;    ;                                  ;                ;
+                     ; 200004             ; singleMaltImported, singleton ; Signleton       ; SIN-002        ; pieces    ;    ;                                  ;                ;
+                     ; 200005             ; whiskyImported, jackDaniels   ; Jack Dabiel's   ; WIS-001        ; pieces    ;    ;                                  ;                ;
+                     ; 200006             ; whiskyImported, jura          ; Jura            ; WIS-002        ; pieces    ;    ;                                  ;                ;
+                     ; 200007             ; singleMaltIndian, amrut       ; Amrut           ; SINI-001       ; pieces    ;    ;                                  ;                ;
+                     ; 200008             ; singleMaltIndian, rampur      ; Rampur          ; SINI-002       ; pieces    ;    ;                                  ;                ;
+                     ; 200009             ; whisky, blendersPride         ; Blenders Pride  ; WHY-001        ; pieces    ;    ;                                  ;                ;
+                     ; 200010             ; whisky, royalChallenge        ; Royal Challenge ; WHY-002        ; pieces    ;    ;                                  ;                ;
+                     ; 200028             ; whisky, royalChallenge        ; Royal Challenge ; WHY-003        ; pieces    ;    ;                                  ;                ;
+                     ; 200029             ; whisky, blendersPride         ; Blenders Pride  ; WHY-004        ; pieces    ;    ;                                  ;                ;
+
+                     ; 200011             ; rumBrandy, oldMonk            ; Old Monk        ; RUM-001        ; pieces    ;    ;                                  ;                ;
+                     ; 200012             ; rumBrandy, bacardi            ; Bacardi         ; RUM-002        ; pieces    ;    ;                                  ;                ;
+                     ; 200030             ; rumBrandy, bacardi            ; Bacardi         ; RUM-003        ; pieces    ;    ;                                  ;                ;
+                     ; 200031             ; rumBrandy, oldMonk            ; Old Monk        ; RUM-004        ; pieces    ;    ;                                  ;                ;
+
+                     ; 200013             ; redWine, maisonChanson        ; Maison Chanson  ; RWI-001        ; pieces    ;    ;                                  ;                ;
+                     ; 200014             ; redWine, fratelli             ; Fratelli        ; RWI-002        ; pieces    ;    ;                                  ;                ;
+                     ; 200015             ; whiteWine, fratelli           ; Fratelli        ; WWI-001        ; pieces    ;    ;                                  ;                ;
+                     ; 200016             ; whiteWine, antares            ; Antares         ; WWI-002        ; pieces    ;    ;                                  ;                ;
+                     ; 200017             ; roseWine, blackTower          ; BlackTower      ; RWI-001        ; pieces    ;    ;                                  ;                ;
+                     ; 200032             ; roseWine, fratelli            ; Fratelli        ; RW-002         ; pieces    ;    ;                                  ;                ;
+
+                     ; 200018             ; beer, kingfisher              ; Kingfisher      ; BEE-001        ; pieces    ;    ;                                  ;                ;
+                     ; 200019             ; beer, brocode                 ; Brocode         ; BEE-002        ; pieces    ;    ;                                  ;                ;
+                     ; 200033             ; beer, bacardi                 ; Bacardi         ; BEE-003        ; pieces    ;    ;                                  ;                ;
+                     ; 200034             ; beer, bacardi                 ; Bacardi         ; BEE-004        ; pieces    ;    ;                                  ;                ;
+                     ; 200035             ; beer, bacardi                 ; Bacardi         ; BEE-005        ; pieces    ;    ;                                  ;                ;
+
+                     ; 200020             ; vodka, magicMoments           ; Magic Moments   ; VOD-001        ; pieces    ;    ;                                  ;                ;
+                     ; 200021             ; vodka, whiteMischief          ; White Mischief  ; VOD-002        ; pieces    ;    ;                                  ;                ;
+                     ; 200036             ; vodka, magicMoments           ; Magic Moments   ; VOD-003        ; pieces    ;    ;                                  ;                ;
+                     ; 200037             ; vodka, magicMoments           ; Magic Moments   ; VOD-004        ; pieces    ;    ;                                  ;                ;
+
+                     ; 200022             ; gin, bulldog                  ; Bulldogs        ; GIN-001        ; pieces    ;    ;                                  ;                ;
+                     ; 200023             ; gin, jaisalmerGin             ; Jaisalmer Gin   ; GIN-002        ; pieces    ;    ;                                  ;                ;
+                     ; 200038             ; gin, amrut                    ; Jaisalmer Gin   ; GIN-003        ; pieces    ;    ;                                  ;                ;
+
+                     ; 200024             ; snacks, spencers              ; Spencers        ; SNA-001        ; pieces    ;    ;                                  ;                ;
+                     ; 200025             ; snacks, spencers              ; Spencers        ; SNA-002        ; pieces    ;    ;                                  ;                ;
+                     ; 200039             ; snacks, spencers              ; Spencers        ; SNA-003        ; pieces    ;    ;                                  ;                ;
+
+INSERT_UPDATE LiquorShopQuantityVariantProduct; code[unique = true]; $baseProduct; ean; unit(code); quantity; $supercategories; approvalstatus(code)[default = 'approved']; $catalogVersion
+                                              ; 200001_500         ; 200001      ;    ; pieces    ; 500     ;                 ;                                           ;
+                                              ; 200001_750         ; 200001      ;    ; pieces    ; 750     ;                 ;                                           ;
+                                              ; 200001_1000        ; 200001      ;    ; pieces    ; 1000    ;                 ;                                           ;
+
+INSERT_UPDATE Entitlement; id[unique = true]
+"#%beforeEach:
+import de.hybris.platform.core.Registry;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import de.hybris.platform.util.Config;
+
+Logger LOG = LoggerFactory.getLogger(""ImpExImportReader"");
+extensionNames = Registry.getCurrentTenant().getTenantSpecificExtensionNames();
+extensionName = ""entitlementservices"";
+    if(!extensionNames.contains(extensionName))
+    {
+        LOG.info(""Sample data for entitlementservices was skipped because the extension entitlementservices is not included in the setup"");
+        line.clear();
+    }
+"
+                         ; cloud_storage
+                         ; additional_filter
+
+INSERT_UPDATE ProductEntitlement; id[unique = true]         ; entitlement(id)   ; subscriptionProduct(code, $catalogVersion); quantity; timeUnit(code); timeUnitStart; timeUnitDuration; $catalogVersion
+"#%beforeEach:
+import de.hybris.platform.core.Registry;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import de.hybris.platform.util.Config;
+
+Logger LOG = LoggerFactory.getLogger(""ImpExImportReader"");
+extensionNames = Registry.getCurrentTenant().getTenantSpecificExtensionNames();
+extensionName = ""entitlementservices"";
+    if(!extensionNames.contains(extensionName))
+    {
+        LOG.info(""Sample data for entitlementservices was skipped because the extension entitlementservices is not included in the setup"");
+        line.clear();
+    }
+"
+                                ; cloud_storage_3470545     ; cloud_storage     ; 3470545                                   ;         ; month         ; 1            ; 12              ;
+                                ; additional_filter_1391319 ; additional_filter ; 1391319                                   ; 3       ;               ;              ;                 ;
+                                ; cloud_storage_2278102     ; cloud_storage     ; 2278102                                   ;         ; month         ; 1            ; 12              ;

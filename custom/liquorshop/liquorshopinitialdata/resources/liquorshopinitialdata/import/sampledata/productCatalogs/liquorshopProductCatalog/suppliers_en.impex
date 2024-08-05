@@ -1,0 +1,42 @@
+# -----------------------------------------------------------------------
+# Copyright (c) 2019 SAP SE or an SAP affiliate company. All rights reserved.
+# -----------------------------------------------------------------------
+# ImpEx for Importing Suppliers into Liquorshop Store
+
+# Macros / Replacement Parameter definitions
+$productCatalog = liquorshopProductCatalog
+$productCatalogName = Liquorshop Product Catalog
+$catalogVersion = catalogversion(catalog(id[default = $productCatalog]), version[default = 'Staged'])[unique = true, default = $productCatalog:Staged]
+$superCategories = superCategories(code, )
+
+# Language
+$lang = en
+
+
+
+# Create Categories
+UPDATE Category; code[unique = true]; $catalogVersion; name[lang = en] ; description[lang = en]
+               ; brands             ;                ; Brands          ; Brands
+               ; teachers           ;                ; Teachers        ; Teachers
+               ; johnieWalker       ;                ; Johnie Walker   ; Johnie Walker
+               ; chivas             ;                ; Chivas          ; Chivas
+               ; singleton          ;                ; Signleton       ; Signleton
+               ; jackDaniels        ;                ; Jack Dabiel's   ; Jack Daniel's
+               ; jura               ;                ; Jura            ; Jura
+               ; amrut              ;                ; Amrut           ; Amrut
+               ; rampur             ;                ; Rampur          ; Rampur
+               ; blendersPride      ;                ; Blenders Pride  ; Blenders Pride
+               ; royalChallenge     ;                ; Royal Challenge ; Royal Challenge
+               ; oldMonk            ;                ; Old Monk        ; Old Monk
+               ; bacardi            ;                ; Bacardi         ; Bacardi
+               ; maisonChanson      ;                ; Maison Chanson  ; Maison Chanson
+               ; fratelli           ;                ; Fratelli        ; Fratelli
+               ; antares            ;                ; Antares         ; Antares
+               ; blackTower         ;                ; Black Tower     ; Black Tower
+               ; kingfisher         ;                ; Kingfisher      ; Kingfisher
+               ; brocode            ;                ; Brocode         ; Brocode
+               ; magicMoments       ;                ; Magic Moments   ; Magic Moments
+               ; whiteMischief      ;                ; White Mischief  ; White Mischief
+               ; bulldog            ;                ; Bulldog         ; Bulldog
+               ; jaisalmerGin       ;                ; Jaisalmer Gin   ; Jaisalmer Gin
+               ; spencers           ;                ; Spencers        ; Spencers

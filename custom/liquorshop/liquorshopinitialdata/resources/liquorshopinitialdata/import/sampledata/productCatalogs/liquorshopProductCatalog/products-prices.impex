@@ -1,0 +1,101 @@
+# -----------------------------------------------------------------------
+# Copyright (c) 2019 SAP SE or an SAP affiliate company. All rights reserved.
+# -----------------------------------------------------------------------
+# ImpEx for Importing Liquorshop Store Prices
+#% impex.setLocale( Locale.GERMAN );
+
+$productCatalog = liquorshopProductCatalog
+$catalogVersion = catalogversion(catalog(id[default = $productCatalog]), version[default = 'Staged'])[unique = true, default = '$productCatalog:Staged']
+$taxGroup = Europe1PriceFactory_PTG(code)[default = in-service-tax]
+$prices = Europe1prices[translator = de.hybris.platform.europe1.jalo.impex.Europe1PricesTranslator]
+
+# Set product approval status to Approved only for those products that have prices.
+$approved = approvalstatus(code)[default = 'approved']
+
+UPDATE Product; code[unique = true]; $prices; $approved; $catalogVersion; $taxGroup
+              ; 200001             ;        ;          ;                ;
+              ; 200001_500         ;        ;          ;                ;
+              ; 200001_750         ;        ;          ;                ;
+              ; 200001_1000        ;        ;          ;                ;
+              ; 200002             ;        ;          ;                ;
+              ; 200003             ;        ;          ;                ;
+              ; 200004             ;        ;          ;                ;
+              ; 200005             ;        ;          ;                ;
+              ; 200006             ;        ;          ;                ;
+              ; 200007             ;        ;          ;                ;
+              ; 200008             ;        ;          ;                ;
+              ; 200009             ;        ;          ;                ;
+              ; 200010             ;        ;          ;                ;
+              ; 200011             ;        ;          ;                ;
+              ; 200012             ;        ;          ;                ;
+              ; 200013             ;        ;          ;                ;
+              ; 200014             ;        ;          ;                ;
+              ; 200015             ;        ;          ;                ;
+              ; 200016             ;        ;          ;                ;
+              ; 200017             ;        ;          ;                ;
+              ; 200018             ;        ;          ;                ;
+              ; 200019             ;        ;          ;                ;
+              ; 200020             ;        ;          ;                ;
+              ; 200021             ;        ;          ;                ;
+              ; 200022             ;        ;          ;                ;
+              ; 200023             ;        ;          ;                ;
+              ; 200024             ;        ;          ;                ;
+              ; 200025             ;        ;          ;                ;
+              ; 200026             ;        ;          ;                ;
+              ; 200027             ;        ;          ;                ;
+              ; 200028             ;        ;          ;                ;
+              ; 200029             ;        ;          ;                ;
+              ; 200030             ;        ;          ;                ;
+              ; 200031             ;        ;          ;                ;
+              ; 200032             ;        ;          ;                ;
+              ; 200033             ;        ;          ;                ;
+              ; 200034             ;        ;          ;                ;
+              ; 200035             ;        ;          ;                ;
+              ; 200036             ;        ;          ;                ;
+              ; 200037             ;        ;          ;                ;
+              ; 200038             ;        ;          ;                ;
+              ; 200039             ;        ;          ;                ;
+
+INSERT_UPDATE PriceRow; product(code)[unique = true]; unit(code[unique = true, default = pieces]); currency(isocode)[unique = true]; price  ; minqtd; unitFactor; net
+                      ; 200001                      ; pieces                                     ; INR                             ; 3560   ; 1     ; 1         ; false
+                      ; 200001_500                  ; pieces                                     ; INR                             ; 1560   ; 1     ; 1         ; false
+                      ; 200001_750                  ; pieces                                     ; INR                             ; 2500   ; 1     ; 1         ; false
+                      ; 200001_1000                 ; pieces                                     ; INR                             ; 3560   ; 1     ; 1         ; false
+                      ; 200002                      ; pieces                                     ; INR                             ; 1950   ; 1     ; 1         ; false
+                      ; 200003                      ; pieces                                     ; INR                             ; 29800  ; 1     ; 1         ; false
+                      ; 200004                      ; pieces                                     ; INR                             ; 4800   ; 1     ; 1         ; false
+                      ; 200005                      ; pieces                                     ; INR                             ; 2920   ; 1     ; 1         ; false
+                      ; 200006                      ; pieces                                     ; INR                             ; 6780   ; 1     ; 1         ; false
+                      ; 200007                      ; pieces                                     ; INR                             ; 3630   ; 1     ; 1         ; false
+                      ; 200008                      ; pieces                                     ; INR                             ; 6500   ; 1     ; 1         ; false
+                      ; 200009                      ; pieces                                     ; INR                             ; 980    ; 1     ; 1         ; false
+                      ; 200010                      ; pieces                                     ; INR                             ; 750    ; 1     ; 1         ; false
+                      ; 200011                      ; pieces                                     ; INR                             ; 560    ; 1     ; 1         ; false
+                      ; 200012                      ; pieces                                     ; INR                             ; 670    ; 1     ; 1         ; false
+                      ; 200013                      ; pieces                                     ; INR                             ; 6890   ; 1     ; 1         ; false
+                      ; 200014                      ; pieces                                     ; INR                             ; 1170   ; 1     ; 1         ; false
+                      ; 200015                      ; pieces                                     ; INR                             ; 1150   ; 1     ; 1         ; false
+                      ; 200016                      ; pieces                                     ; INR                             ; 1320   ; 1     ; 1         ; false
+                      ; 200017                      ; pieces                                     ; INR                             ; 2250   ; 1     ; 1         ; false
+                      ; 200018                      ; pieces                                     ; INR                             ; 65     ; 1     ; 1         ; false
+                      ; 200019                      ; pieces                                     ; INR                             ; 180    ; 1     ; 1         ; false
+                      ; 200020                      ; pieces                                     ; INR                             ; 650    ; 1     ; 1         ; false
+                      ; 200021                      ; pieces                                     ; INR                             ; 330    ; 1     ; 1         ; false
+                      ; 200022                      ; pieces                                     ; INR                             ; 2450   ; 1     ; 1         ; false
+                      ; 200023                      ; pieces                                     ; INR                             ; 4000   ; 1     ; 1         ; false
+                      ; 200024                      ; pieces                                     ; INR                             ; 165    ; 1     ; 1         ; false
+                      ; 200025                      ; pieces                                     ; INR                             ; 165,75 ; 1     ; 1         ; false
+                      ; 200026                      ; pieces                                     ; INR                             ; 2500   ; 1     ; 1         ; false
+                      ; 200027                      ; pieces                                     ; INR                             ; 3150   ; 1     ; 1         ; false
+                      ; 200028                      ; pieces                                     ; INR                             ; 400    ; 1     ; 1         ; false
+                      ; 200029                      ; pieces                                     ; INR                             ; 1190   ; 1     ; 1         ; false
+                      ; 200030                      ; pieces                                     ; INR                             ; 940    ; 1     ; 1         ; false
+                      ; 200031                      ; pieces                                     ; INR                             ; 730    ; 1     ; 1         ; false
+                      ; 200032                      ; pieces                                     ; INR                             ; 550    ; 1     ; 1         ; false
+                      ; 200033                      ; pieces                                     ; INR                             ; 110    ; 1     ; 1         ; false
+                      ; 200034                      ; pieces                                     ; INR                             ; 110    ; 1     ; 1         ; false
+                      ; 200035                      ; pieces                                     ; INR                             ; 100    ; 1     ; 1         ; false
+                      ; 200036                      ; pieces                                     ; INR                             ; 210    ; 1     ; 1         ; false
+                      ; 200037                      ; pieces                                     ; INR                             ; 210    ; 1     ; 1         ; false
+                      ; 200038                      ; pieces                                     ; INR                             ; 1850   ; 1     ; 1         ; false
+                      ; 200039                      ; pieces                                     ; INR                             ; 296,65 ; 1     ; 1         ; false

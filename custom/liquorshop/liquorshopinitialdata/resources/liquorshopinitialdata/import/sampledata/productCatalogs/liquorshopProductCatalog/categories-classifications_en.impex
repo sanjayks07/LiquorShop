@@ -1,0 +1,30 @@
+# -----------------------------------------------------------------------
+# Copyright (c) 2019 SAP SE or an SAP affiliate company. All rights reserved.
+# -----------------------------------------------------------------------
+#******************************This file is generated - please do not edit it. It will be regenerated after every build.********************************#
+# ImpEx for Importing Classification Categories into Liquorshop Store
+
+# Macros / Replacement Parameter definitions
+$productCatalog = liquorshopProductCatalog
+$productCatalogName = Liquorshop Product Catalog
+$classCatalogVersion = catalogversion(catalog(id[default = 'LiquorshopClassification']), version[default = '1.0'])[unique = true, default = 'LiquorshopClassification:1.0']
+$classSystemVersion = systemVersion(catalog(id[default = 'LiquorshopClassification']), version[default = '1.0'])[unique = true]
+
+# Language
+$lang = en
+
+
+# Create Categories
+UPDATE ClassificationClass; code[unique = true]; $classCatalogVersion; name[lang = $lang]
+                          ; drinksAssortment   ;                     ; Drinks Assortment
+                          ; snacksAssortment   ;                     ; Snacks Assortment
+
+
+
+# Create Categories
+UPDATE ClassificationAttribute; code[unique = true]; $classSystemVersion; name[lang = $lang]
+                              ; materialDrinks     ;                    ; Alcoholic or not
+                              ; materialSnacks     ;                    ; Type of material
+
+                              ; quantity_g         ;                    ; Quantity in grams
+                              ; quantity_ml        ;                    ; Quantity in Milli Liter
